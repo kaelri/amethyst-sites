@@ -1,0 +1,18 @@
+name: Amethyst
+hosts:
+  path:         /etc/hosts
+apache:
+  vhostsPath:   /usr/local/etc/httpd/extra/httpd-vhosts.conf
+  documentRoot: /Users/kaelri/Sites/localhost
+ssl:
+  organization: Amethyst
+  email:        kaelri@amethyst.local
+  state:        VA
+  country:      US
+  keyPath:      /usr/local/etc/httpd/server.key
+  certPath:     /usr/local/etc/httpd/server.crt
+sites:
+  - domain:  amethyst.local
+    alias:   www.amethyst.local
+    path:    /Users/kaelri/Sites/localhost
+    server:  apache

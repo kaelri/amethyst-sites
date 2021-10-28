@@ -1,0 +1,10 @@
+{
+	"name": "amethyst-sites",
+	"scripts": {
+		"build": "node build"
+	},
+	"devDependencies": {
+		"pem": "^1.14.4",
+		"yaml": "^1.10.2"
+	}
+}
