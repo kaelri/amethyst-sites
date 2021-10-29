@@ -1,7 +1,7 @@
 {
 	"name": "amethyst-sites",
 	"scripts": {
-		"build": "sudo node build"
+		"build": "sudo node build && brew services restart httpd"
 	},
 	"devDependencies": {
 		"pem": "^1.14.4",
