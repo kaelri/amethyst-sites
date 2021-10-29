@@ -189,16 +189,13 @@ function buildSSLCertificate() {
 			let shellCommands = [
 				`security delete-certificate -c "${config.name} Self-Signed SSL Certificate" /Library/Keychains/System.keychain`,
 				`security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain "${config.ssl.certPath}"`,
+				'brew services restart httpd'
 			]
 	
 			exec( shellCommands.join(';'), (error, stdout, stderr) => {
 
 				console.log(stdout)
 				
-				exec('brew services restart httpd', (error, stdout, stderr) => {
-					console.log(stdout)
-				})
-
 			})
 		
 		})
