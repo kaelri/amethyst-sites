@@ -13,6 +13,7 @@ class amethystSites {
 		this.buildHosts()
 		this.buildApacheVirtualHosts()
 		this.buildSSLCertificate()
+		this.buildTags()
 	}
 
 	// HOSTS
@@ -88,10 +89,12 @@ class amethystSites {
 
 			if ( !site.server || site.server !== 'apache' ) continue;
 
+			let documentRoot = site?.public ?? site?.path
+
 			// HTTPS
 			lines.push( ''                                )
 			lines.push( `<VirtualHost *:443>`             )
-			lines.push( `    DocumentRoot "${site.path}"` )
+			lines.push( `    DocumentRoot "${documentRoot}"` )
 			lines.push( `    ServerName ${site.domain}`   )
 
 			if ( site.alias && site.alias.length ) {
@@ -107,7 +110,7 @@ class amethystSites {
 			}
 
 			if ( site.directory && site.directory.length ) {
-			lines.push( `    <Directory "${site.path}">` )
+			lines.push( `    <Directory "${documentRoot}">` )
 			for (let i = 0; i < site.directory.length; i++) {
 			lines.push( `        ${site.directory[i]}` )
 			}
@@ -194,6 +197,28 @@ class amethystSites {
 			})
 
 		})
+
+	}
+
+	buildTags() {
+
+		for (let i = 0; i < this.config.sites.length; i++) {
+			const site = this.config.sites[i]
+
+			let shellCommands = [
+				`tag -a "Sites" "${site.path}"`
+			]
+
+			if ( site.app && site.app === 'wordpress' ) {
+				
+				shellCommands.push(`tag -a "WordPress" "${site.path}"`)
+			}
+
+			if ( shellCommands.length ) {
+				exec( shellCommands.join(';'), (error, stdout, stderr) => console.log(stdout) )
+			}
+
+		}
 
 	}
 
